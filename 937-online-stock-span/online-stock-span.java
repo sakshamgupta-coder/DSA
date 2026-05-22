@@ -1,18 +1,27 @@
-class StockSpanner {
-       ArrayList<Integer>  list;
-    public StockSpanner() {
-        list=new ArrayList<>();
+class Pair{
+    int f;
+    int s;
+    Pair(int f,int s){
+        this.f=f;
+        this.s=s;
+    }
+}
 
+class StockSpanner {
+   Stack<Pair> st;
+   
+    public StockSpanner() {
+        st=new Stack<>();
     }
     
     public int next(int price) {
-        list.add(price);
-        int cnt=1;
-        for(int i=list.size()-2;i>=0;i--){
-            if(list.get(i)<=price)cnt++;
-            else break;
+        int span=1;
+        while(!st.isEmpty()&&st.peek().f<=price){
+            span+=st.peek().s;
+            st.pop();
         }
-        return cnt;
+        st.push(new Pair(price,span));
+        return span;
     }
 }
 
