@@ -2,42 +2,16 @@ class Solution {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> ans = new ArrayList<>();
         char[][] board = new char[n][n];
+        int []leftRow=new int[n];
+        int []upperDigo=new int[2*n-1];
+        int []lowerDigo=new int[2*n-1];
         for (int i = 0; i < n; i++) {
             Arrays.fill(board[i], '.');
         }
-        solve(0, n, board, ans);
+        solve(0, n, board,leftRow,upperDigo,lowerDigo, ans);
         return ans;
     }
-
-    public static boolean isSafe(int row, int col, char[][] board, int n) {
-        int r = row;
-        int c = col;
-        while (r >= 0 && c >= 0) {
-            if (board[r][c] == 'Q')
-                return false;
-            r--;
-            c--;
-        }
-        c = col;
-        r = row;
-        while (c >= 0) {
-            if (board[r][c] == 'Q')
-                return false;
-            c--;
-
-        }
-        c = col;
-        r = row;
-        while (r < n && c >= 0) {
-            if (board[r][c] == 'Q')
-                return false;
-            r++;
-            c--;
-        }
-        return true;
-    }
-
-  public static void solve(int col,int n,char[][] board,List<List<String>> ans){
+  public static void solve(int col,int n,char[][] board,int []leftRow,int []upperDigo,int []lowerDigo, List<List<String>> ans){
     if(col==n){
         List<String> res=new ArrayList<>();
         for(int i=0;i<n;i++){
@@ -47,10 +21,16 @@ class Solution {
         return;
     }
     for(int row=0;row<n;row++){
-        if(isSafe(row,col,board,n)){
+        if(leftRow[row]==0&&upperDigo[n-1+col-row]==0&&lowerDigo[row+col]==0){
             board[row][col]='Q';
-            solve(col+1,n,board,ans);
-          board[row][col]='.';        
+            leftRow[row]=1;
+            upperDigo[n-1+col-row]=1;
+            lowerDigo[row+col]=1;
+            solve(col+1,n,board,leftRow,upperDigo,lowerDigo,ans);
+          board[row][col]='.';  
+           leftRow[row]=0;
+            upperDigo[n-1+col-row]=0;
+            lowerDigo[row+col]=0;      
         }
     }
    }
