@@ -1,17 +1,17 @@
 class Solution {
     public int climbStairs(int n) {
         Integer[] dp=new Integer[n+1];
-        return solve(0,n,dp);
+        return solve(n,dp);
     }
-    private int solve(int idx,int n,Integer[]dp){
-        if(idx==n) return 1;
-        if(idx>n) return 0;
+    private int solve(int n,Integer[]dp){
+        if(0==n) return 1;
+        if(n<0) return 0;
 
-        if(dp[idx]!=null) return dp[idx];
+        if(dp[n]!=null) return dp[n];
 
-        int one=solve(idx+1,n,dp);
-        int two=solve(idx+2,n,dp);
+        int one=solve(n-1,dp);
+        int two=solve(n-2,dp);
 
-        return dp[idx]=one+two;
+        return dp[n]=one+two;
     }
 }
