@@ -3,14 +3,17 @@ class Solution {
     public int minCostClimbingStairs(int[] cost) {
         dp=new int [cost.length];
         Arrays.fill(dp,-1);
-        return Math.min(minCost(0,cost),
-        minCost(1,cost));
+        return minCost(cost);
         
     }
-    private int minCost(int i,int arr[]){
+    private int minCost(int arr[]){
+        dp[0]=arr[0];
+        dp[1]=arr[1];
 
-        if(i>=arr.length)return 0;
-        if(dp[i]!=-1)return dp[i];
-        return  dp[i]=arr[i] +  Math.min(minCost(i+1,arr),minCost(i+2,arr));
+       for(int i=2;i<arr.length;i++){
+         dp[i]=arr[i] +  Math.min(dp[i-1],dp[i-2]);
+       }
+    
+        return Math.min(dp[arr.length-1],dp[arr.length-2]);
     }
 }
