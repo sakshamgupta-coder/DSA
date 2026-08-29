@@ -10,14 +10,14 @@ class Solution {
         return Math.max(maxRobbery(0,nums.length-2,nums,dp1),
                          maxRobbery(1,nums.length-1,nums,dp2));
     }
-    private int maxRobbery(int i,int n,int arr[],int dp[]){
-        if(i>n) return 0;
-         if(i==n) return arr[i];
-         if(dp[i]!=-1)return dp[i];
+    private int maxRobbery( int i,int n,int arr[],int dp[]){
+        if(n<i) return 0;
+         if(n==i) return arr[n];
+         if(dp[n]!=-1)return dp[n];
 
-         int take=arr[i]+maxRobbery(i+2,n,arr,dp);
-         int notTake=maxRobbery(i+1,n,arr,dp);
+         int take=arr[n]+maxRobbery(i,n-2,arr,dp);
+         int notTake=maxRobbery(i,n-1,arr,dp);
 
-         return dp[i]=Math.max(take,notTake);
+         return dp[n]=Math.max(take,notTake);
     }
 }
