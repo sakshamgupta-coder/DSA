@@ -11,13 +11,12 @@ class Solution {
                          maxRobbery(1,nums.length-1,nums,dp2));
     }
     private int maxRobbery( int i,int n,int arr[],int dp[]){
-        if(n<i) return 0;
-         if(n==i) return arr[n];
-         if(dp[n]!=-1)return dp[n];
+               dp[i]=arr[i];
+               dp[i+1]=Math.max(arr[i],arr[i+1]);
+               for(int j=i+2;j<=n;j++){
+                dp[j]=Math.max(arr[j]+dp[j-2],dp[j-1]);
+               }
 
-         int take=arr[n]+maxRobbery(i,n-2,arr,dp);
-         int notTake=maxRobbery(i,n-1,arr,dp);
-
-         return dp[n]=Math.max(take,notTake);
+         return dp[n];
     }
 }
