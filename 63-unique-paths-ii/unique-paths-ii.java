@@ -3,30 +3,31 @@ class Solution {
         int n=obstacleGrid.length;
         int m=obstacleGrid[0].length;
         int dp[][]=new int[n][m];
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-              dp[i][j]=-1;
-            }
-            
-        }
         if(obstacleGrid[n-1][m-1]==1)return 0;
-
-         return uniquePaths(obstacleGrid,0,0,n,m,dp);
+        if(obstacleGrid[0][0]==1) return 0;
+         return uniquePaths(obstacleGrid,n,m,dp);
         
     }
-    public int uniquePaths(int arr[][],int i,int j,int n,int m,int dp[][]){
-        if(i>=n||j>=m)return 0;   
-        if(i==n-1&&j==m-1)return 1;
-        if(dp[i][j]!=-1)return dp[i][j];
-         int right=0;
-         int left=0;
-        if(arr[i][j]!=1){
-
-            int res1=uniquePaths(arr,i,j+1,n,m,dp);
-            right+=res1;
-            int res2=uniquePaths(arr,i+1,j,n,m,dp);
-             left+=res2;
+    public int uniquePaths(int arr[][],int n,int m,int dp[][]){
+        for(int i= 0;i<n;i++){
+            if(arr[i][0]==1)break;
+            dp[i][0]=1;
+            
         }
-        return dp[i][j]= right+left;
+        for(int i= 0;i<m;i++){
+            if(arr[0][i]==1)break;
+            dp[0][i]=1;
+            
+        }
+         
+         for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                 if(arr[i][j]==1){dp[i][j]=0;}
+                 else
+                   {dp[i][j]=dp[i-1][j]+dp[i][j-1];}
+            }
+         }
+         return dp[n-1][m-1];
+        
     }
 }
