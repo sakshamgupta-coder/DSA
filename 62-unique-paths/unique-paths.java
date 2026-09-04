@@ -6,15 +6,21 @@ class Solution {
               dp[i][j]=-1;
             }    
         }
-         return uniquePaths(0,0,n,m,dp);
+         return uniquePaths(n,m,dp);
         
     }
-    public int uniquePaths(int i,int j,int n,int m,int dp[][]){
-        if(i>=m||j>=n)return 0;   
-        if(i==m-1&&j==n-1)return 1;
-        if(dp[i][j]!=-1)return dp[i][j];
-         int right=uniquePaths(i,j+1,n,m,dp);
-         int left=uniquePaths(i+1,j,n,m,dp);
-        return dp[i][j]= right+left;
+    public int uniquePaths(int n,int m,int dp[][]){
+        for(int i=0;i<m;i++){
+            dp[i][0]=1;
+        }
+        for(int i=0;i<n;i++){
+            dp[0][i]=1;
+        }
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                dp[i][j]=dp[i-1][j]+dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
     }
 }
