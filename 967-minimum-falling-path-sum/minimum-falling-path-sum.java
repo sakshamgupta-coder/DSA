@@ -1,34 +1,33 @@
 class Solution {
     public int minFallingPathSum(int[][] matrix) {
         int n=matrix.length;
-        int m=matrix[0].length;
-        int dp[][]=new int[101][101];
+        int dp[][]=new int[n][n];
         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                dp[i][j]=-100000;
+            for(int j=0;j<n;j++){
+                dp[i][j]=10000;
             }
         }
         int ans=Integer.MAX_VALUE;
         for(int i=0;i<n;i++){
-            ans=Math.min(ans,minimum(0,i,n-1,m-1,matrix,dp));
+            ans=Math.min(ans,min(n-1,n-i-1,matrix,dp));
         }
-        return ans;     
+        return ans;
+        
     }
-    private int minimum(int i,int j,int n,int m,int arr[][],int dp[][]){
-        if(i > n) return Integer.MAX_VALUE;
-        if(j < 0 || j > m) return Integer.MAX_VALUE;
+     private int min(int n,int m,int arr[][],int dp[][]){
+      if(n<0)return Integer.MAX_VALUE;
+      if(m<0||m>arr.length)return Integer.MAX_VALUE;
+      if(n==0) return arr[n][m];
+      if(dp[n][m]!=10000)return dp[n][m];
 
-         if(i == n) return arr[i][j];
-        if(dp[i][j]!=-100000)return dp[i][j];
-          int take=arr[i][j]+minimum(i+1,j,n,m,arr,dp);
-          if(j-1>=0){
-            int res=minimum(i+1,j-1,n,m,arr,dp);
-            take=Math.min(take,arr[i][j]+res);
-          }
-          if(j+1<=n)
-           take=Math.min(take,arr[i][j]+minimum(i+1,j+1,n,m,arr,dp));
+      int ans=arr[n][m]+min(n-1,m,arr,dp);
+      if(m-1>=0)
+      ans=Math.min(ans,arr[n][m]+min(n-1,m-1,arr,dp));
 
-          return dp[i][j]=take;
+      if(m+1<arr.length)
+      ans=Math.min(ans,arr[n][m]+min(n-1,m+1,arr,dp));
 
-    }
+      return dp[n][m]=ans;
+
+     }
 }
