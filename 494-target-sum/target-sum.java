@@ -1,19 +1,18 @@
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        int sum = 0;
-        for(int num : nums) {
-            sum += num;
-        }
-        if(sum < Math.abs(target)) return 0;
-        if((sum + target) % 2 != 0) return 0;
-        int tar = (sum + target) / 2;
-        int[] dp = new int[tar + 1];
-        dp[0] = 1;
-        for(int num : nums) {
-            for(int s = tar; s >= num; s--) {
-                dp[s] += dp[s - num];
-            }
-        }
-        return dp[tar];
+       int n=nums.length;
+       return ways(n-1,0,target,nums); 
     }
+private int ways(int n,int currSum, int tar,int[] arr){
+    if(n<0){
+    if(tar==currSum)return 1;
+    else return 0;
+    }
+     int add=0;
+     int minus=0;
+        minus=ways(n-1,currSum-arr[n],tar,arr);
+        add=ways(n-1,currSum+arr[n],tar,arr);
+
+    return minus+add;
+}
 }
