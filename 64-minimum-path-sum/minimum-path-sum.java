@@ -7,18 +7,18 @@ class Solution {
             Arrays.fill(dp[i],-1);
         }
 
-        return minSum(0,0,n-1,m-1,grid,dp);
+        return minSum(n-1,m-1,grid,dp);
         
     }
-    private int minSum(int i,int j,int n,int m,int [][]arr,int dp[][]){
-        if(i>n||j>m)return Integer.MAX_VALUE;
-        if(i==n&&j==m)return arr[i][j];
-        if(dp[i][j]!=-1)return dp[i][j];
+    private int minSum(int n,int m,int [][]arr,int dp[][]){
+        if(n<0||m<0)return Integer.MAX_VALUE;
+        if(0==n&&0==m)return arr[n][m];
+        if(dp[n][m]!=-1)return dp[n][m];
          
-         int right=minSum(i,j+1,n,m,arr,dp);
-         int down=minSum(i+1,j,n,m,arr,dp);
+         int up=minSum(n-1,m,arr,dp);
+         int left=minSum(n,m-1,arr,dp);
 
-         return  dp[i][j]=arr[i][j]+Math.min(right,down);
+         return  dp[n][m]=arr[n][m]+Math.min(left,up);
 
     }
 }
